@@ -9,7 +9,7 @@ import { useQuery } from "react-query";
 const fetcher = async ({
   queryKey,
 }: {
-  queryKey: any;
+  queryKey: readonly any[];
 }): Promise<TArticleList> => {
   const [_key, params] = queryKey;
   return await axios.get(URL_API, { params: params }).then((res) => res.data);

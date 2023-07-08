@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-const PostDetail = ({ article }: any) => {
+const PostDetail = ({
+  article,
+}: {
+  article: TArticleData & { content: string };
+}) => {
   const { author, category, thumbnail, slug, title, summary, content } =
     article;
 

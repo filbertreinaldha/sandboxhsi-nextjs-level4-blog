@@ -1,7 +1,6 @@
 import Image from "next/image";
 
-const RelatedPostSummary = (props: any) => {
-  const { article } = props;
+const RelatedPostSummary = ({ article }: { article: TArticleData }) => {
   return (
     <div className="bg-white space-y-6 pb-12">
       <h2 className="font-bold text-2xl">Related Post List</h2>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const Slug = async ({ params }: { params: { slug: string } }) => {
   const response = await axios
-    .get(`${URL_API}/${params.slug}`)
+    .get<TArticleDetail>(`${URL_API}/${params.slug}`)
     .then((res) => res.data)
     .catch((e) => e.response);
 
@@ -34,7 +34,7 @@ const Slug = async ({ params }: { params: { slug: string } }) => {
 
 export async function generateStaticParams() {
   const data = await axios
-    .get(URL_API)
+    .get(URL_API, { params: { perPage: 100 } })
     .then((res) => res.data)
     .catch((e) => e.response);
 

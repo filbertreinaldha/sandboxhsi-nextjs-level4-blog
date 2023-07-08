@@ -1,8 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const RelatedPost = (props: any) => {
-  const { article, index } = props;
+const RelatedPost = ({
+  article,
+  index,
+}: {
+  article: TArticleData;
+  index: number;
+}) => {
   const { title, summary, slug, thumbnail } = article;
   return (
     <div className="my-8" key={index}>

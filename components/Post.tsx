@@ -3,8 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const Post = (props: any) => {
-  const { article, mini = false, className = "" } = props;
+const Post = ({
+  article,
+  mini = false,
+  className = "",
+}: {
+  article: TArticleData;
+  mini?: boolean;
+  className?: string;
+}) => {
   const { id, author, category, thumbnail, slug, title, summary } = article;
 
   return (

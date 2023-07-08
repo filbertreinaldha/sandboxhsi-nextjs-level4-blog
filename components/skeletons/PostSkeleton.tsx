@@ -1,4 +1,4 @@
-const PostSkeleton = ({ mini = false }: any) => {
+const PostSkeleton = ({ mini = false }: { mini?: boolean }) => {
   return (
     <div
       className={`mb-4 sm:mb-8 lg:mb-16 flex flex-col gap-y-4 animate-pulse w-full`}

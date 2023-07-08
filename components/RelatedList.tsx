@@ -11,14 +11,16 @@ const fetcher = async ({
   queryKey,
   pageParam = 1,
 }: {
-  queryKey: any;
-  pageParam: any;
+  queryKey: (string | TRelatesParam)[];
+  pageParam: number;
 }): Promise<TArticleList> => {
   const [_key, params] = queryKey;
-  return await axios.get(URL_API, { params: { page: pageParam, ...params } });
+  return await axios.get(URL_API, {
+    params: { page: pageParam, ...(params as TRelatesParam) },
+  });
 };
 
-const RelatedList = ({ relatesParam }: any) => {
+const RelatedList = ({ relatesParam }: { relatesParam: TRelatesParam }) => {
   const {
     data,
     error,
@@ -27,7 +29,7 @@ const RelatedList = ({ relatesParam }: any) => {
     isFetching,
     isFetchingNextPage,
     isError,
-  } = useInfiniteQuery<TInfiniteArticle, Error>({
+  } = useInfiniteQuery<TInfiniteArticle, Error, TInfinitePage, any>({
     queryKey: ["relates", relatesParam],
     queryFn: fetcher,
     getNextPageParam: (lastPage: TInfinitePage) => {
@@ -39,7 +41,7 @@ const RelatedList = ({ relatesParam }: any) => {
     },
   });
 
-  const realIndex = (page: any, idx: any) => {
+  const realIndex = (page: number, idx: number) => {
     return (page - 1) * 4 + idx;
   };
 
@@ -50,14 +52,14 @@ const RelatedList = ({ relatesParam }: any) => {
       <div>{error.message}</div>
     ) : (
       <>
-        {data?.pages.map((page: any) =>
-          page.data.data.map((article: any, idx: any) => (
+        {data?.pages.map((page: TInfinitePage) =>
+          page.data.data.map((article: TArticleData, idx: number) => (
             <RelatedPost
               article={article}
               index={realIndex(page.data.meta.pagination.page, idx)}
               key={article.id}
             />
-          ))
+          )),
         )}
         {isFetchingNextPage && <RelatedSkeleton />}
       </>

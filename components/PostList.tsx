@@ -10,8 +10,8 @@ const fetcher = async ({
   queryKey,
   pageParam = 1,
 }: {
-  queryKey: any;
-  pageParam: any;
+  queryKey: readonly any[];
+  pageParam: number;
 }): Promise<TArticleList> => {
   const [_key, params] = queryKey;
   return await axios.get(URL_API, { params: { page: pageParam, ...params } });
@@ -21,7 +21,7 @@ const PostList = ({
   initialArticles,
   param,
 }: {
-  initialArticles: any;
+  initialArticles: TArticleList;
   param: { [key: string]: string | undefined };
 }) => {
   const {
@@ -32,7 +32,7 @@ const PostList = ({
     isFetching,
     isFetchingNextPage,
     isError,
-  } = useInfiniteQuery<TInfiniteArticle, Error>({
+  } = useInfiniteQuery<TInfiniteArticle, Error, TInfinitePage, any>({
     queryKey: ["posts", param],
     queryFn: fetcher,
     getNextPageParam: (lastPage: TInfinitePage) => {
@@ -52,10 +52,10 @@ const PostList = ({
       <div>{error.message}</div>
     ) : (
       <>
-        {data?.pages.map((page: any) =>
-          page.data.data.map((article: any) => (
-            <Post key={article.id} article={article} />
-          ))
+        {data?.pages.map((page: TInfinitePage) =>
+          page.data.data.map((article: TArticleData) => (
+            <Post article={article} />
+          )),
         )}
         {isFetchingNextPage && <PostSkeleton />}
       </>

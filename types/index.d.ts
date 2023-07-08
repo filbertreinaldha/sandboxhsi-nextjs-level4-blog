@@ -53,5 +53,5 @@ type TRelatesParam = {
 };
 
 type TSearchParam = {
-  [key: string]: string | undefined;
+  sort: "new" | "popular" | undefined;
 };
