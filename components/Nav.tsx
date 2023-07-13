@@ -8,7 +8,7 @@ import Logo from "@/assets/logo.svg";
 const Nav = ({ hideButtons = false, white = false }) => {
   const router = useRouter();
   const queryString = useSearchParams();
-  const sort = queryString?.get("sort") || "new";
+  const sort = queryString?.get("sort") == "popular" ? "popular" : "new";
 
   return (
     <header

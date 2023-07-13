@@ -12,13 +12,16 @@ export const metadata: Metadata = {
 };
 
 const Slug = async ({ params }: { params: { slug: string } }) => {
-  const response = await axios
-    .get<TArticleDetail>(`${URL_API}/${params.slug}`)
-    .then((res) => res.data)
-    .catch((e) => e.response);
-
-  if (response.status == "404") notFound();
-
+  let response: TArticleDetail;
+  try {
+    response = await axios
+      .get<TArticleDetail>(`${URL_API}/${params.slug}`)
+      .then((res) => res.data);
+  } catch (error: any) {
+    if (error.response.status == "404") notFound();
+    else throw error;
+  }
+  
   const article = response.data;
 
   return (

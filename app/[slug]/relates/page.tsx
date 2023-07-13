@@ -7,29 +7,19 @@ import { URL_API } from "@/constants/URL";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Related Page - Sandbox HSI Next.js Level 4 - Blog",
+  title: "Sandbox HSI Next.js Level 4 - Blog",
 };
 
-// const fetcher = async (URL: string) => {
-//   return await axios
-//     .get(URL)
-//     .then((res) => res.data)
-//     .catch((e) => e.response);
-// };
-
 const Relates = async ({ params }: { params: { slug: string } }) => {
-  // const article = await fetcher(`${URL_API}/${params.slug}`);
-
-  // if (article?.status == "404") {
-  //   notFound();
-  // }
-
-  const response = (await axios
-    .get<TArticleDetail>(`${URL_API}/${params.slug}`)
-    .then((res) => res.data)
-    .catch((e) => e.response));
-
-  if (response.status == "404") notFound();
+  let response: TArticleDetail;
+  try {
+    response = await axios
+      .get<TArticleDetail>(`${URL_API}/${params.slug}`)
+      .then((res) => res.data);
+  } catch (error: any) {
+    if (error.response.status == "404") notFound();
+    else throw error;
+  }
 
   const article = response.data;
 
