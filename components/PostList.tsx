@@ -14,7 +14,9 @@ const fetcher = async ({
   pageParam: number;
 }): Promise<TArticleList> => {
   const [_key, params] = queryKey;
-  return await axios.get(URL_API, { params: { page: pageParam, ...params } });
+  return await axios.get(URL_API, {
+    params: { page: pageParam, sort: params.sort },
+  });
 };
 
 const PostList = ({
